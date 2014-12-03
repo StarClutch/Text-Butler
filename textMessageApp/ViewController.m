@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "SendMesage.h"
+#import "SendMessage.h"
 @interface ViewController ()
 
 @end
@@ -138,7 +138,7 @@
         
     }
     else{
-    SendMesage *sendMessage=[[SendMesage alloc] init];
+    SendMessage *sendMessage=[[SendMessage alloc] init];
     
     [sendMessage sendMessageTo:self.sendTo.text from:self.sendFrom.text message:self.sendMessage.text date:[self.datePicker date] withCompletionHandler:^{
         
@@ -158,7 +158,8 @@
     }];
     
     }
-    
-    
 }
+
+
+
 @end
