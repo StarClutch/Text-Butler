@@ -51,7 +51,9 @@
         else{
             self.failedMessage=NO;
             self.errorMessage=@"";
-            completionHandler();
+            [self cancelMessageSendingwithCompletionHandler:^{
+                completionHandler();
+            }];
 
 
         }

@@ -190,6 +190,25 @@
         NSTimeInterval timeToSendMessage = [self.datePicker.date timeIntervalSince1970];
         NSTimeInterval delay = timeToSendMessage - timeNow;
         
+        NSString *dateString=[NSString stringWithFormat:@"%f", timeToSendMessage];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:self.sendFrom.text forKey:@"sendFrom"];
+        [[NSUserDefaults standardUserDefaults] setObject:self.sendTo.text forKey:@"sendTo"];
+        [[NSUserDefaults standardUserDefaults] setObject:self.sendMessage.text forKey:@"sendMessage"];
+        [[NSUserDefaults standardUserDefaults] setBool:1 forKey:@"pendingMessage"];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:dateString  forKey:@"sendDate"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        
+        self.sendTo.enabled=NO;
+        self.sendFrom.enabled=NO;
+        self.sendMessage.editable=NO;
+        self.datePicker.enabled=NO;
+        [self.sendMessageButton setTitle:@"Cancel Message" forState:UIControlStateNormal];
+        self.pendingMessage=YES;
+
+        
         [self performSelector:@selector(sendMessageAfterDelay:) withObject:sendMessage afterDelay:delay];
     }
 }
@@ -197,7 +216,13 @@
 - (void)sendMessageAfterDelay:(SendMessage *)sendMessage
 {
     [sendMessage sendMessageTo:self.sendTo.text from:self.sendFrom.text message:self.sendMessage.text date:[self.datePicker date] withCompletionHandler:^{
-        
+        self.sendTo.enabled=YES;
+        self.sendFrom.enabled=YES;
+        self.sendMessage.editable=YES;
+        self.datePicker.enabled=YES;
+        self.pendingMessage=NO;
+        [self.sendMessageButton setTitle:@"Send Message" forState:UIControlStateNormal];
+
         if(sendMessage.failedMessage){
 //            self.errorMessage.text=sendMessage.errorMessage;
 //            self.errorMessage.hidden=NO;
@@ -206,26 +231,15 @@
 
         }
         else{
-            
-            NSTimeInterval timeToSendMessage = [self.datePicker.date timeIntervalSince1970];
-            
-            NSString *dateString=[NSString stringWithFormat:@"%f", timeToSendMessage];
-            
-            [[NSUserDefaults standardUserDefaults] setObject:self.sendFrom.text forKey:@"sendFrom"];
-            [[NSUserDefaults standardUserDefaults] setObject:self.sendTo.text forKey:@"sendTo"];
-            [[NSUserDefaults standardUserDefaults] setObject:self.sendMessage.text forKey:@"sendMessage"];
-            [[NSUserDefaults standardUserDefaults] setBool:1 forKey:@"pendingMessage"];
-            
-            [[NSUserDefaults standardUserDefaults] setObject:dateString  forKey:@"sendDate"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            
-            self.sendTo.enabled=NO;
-            self.sendFrom.enabled=NO;
-            self.sendMessage.editable=NO;
-            self.datePicker.enabled=NO;
-            [self.sendMessageButton setTitle:@"Cancel Message" forState:UIControlStateNormal];
-            self.pendingMessage=YES;
+            [sendMessage cancelMessageSendingwithCompletionHandler:^{
+                self.sendTo.text=@"";
+                self.sendMessage.text=@"";
+
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:sendMessage.errorMessage delegate:self cancelButtonTitle:@"Your message has been sent!" otherButtonTitles:nil];
+                [alert show];
+
+            }];
+
         }
     }];
 }
