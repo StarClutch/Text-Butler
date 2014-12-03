@@ -164,8 +164,12 @@
     if(self.pendingMessage){
         [sendMessage cancelMessageSendingwithCompletionHandler:^{
             if(sendMessage.failedMessage){
-                self.errorMessage.text=sendMessage.errorMessage;
-                self.errorMessage.hidden=NO;
+//                self.errorMessage.text=sendMessage.errorMessage;
+//                self.errorMessage.hidden=NO;
+//                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:sendMessage.errorMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+                [alert show];
+                
             }
             else{
             [self.sendMessageButton setTitle:@"Send Message" forState:UIControlStateNormal];
@@ -195,8 +199,11 @@
     [sendMessage sendMessageTo:self.sendTo.text from:self.sendFrom.text message:self.sendMessage.text date:[self.datePicker date] withCompletionHandler:^{
         
         if(sendMessage.failedMessage){
-            self.errorMessage.text=sendMessage.errorMessage;
-            self.errorMessage.hidden=NO;
+//            self.errorMessage.text=sendMessage.errorMessage;
+//            self.errorMessage.hidden=NO;
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:sendMessage.errorMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+            [alert show];
+
         }
         else{
             

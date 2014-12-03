@@ -7,7 +7,7 @@
 //
 
 #import "SendMessage.h"
-
+#import <XMLDictionary.h>
 @implementation SendMessage
 -(void)sendMessageTo:(NSString *)toNumber from:(NSString *)fromNumber message:(NSString *)message date:(NSDate *)date withCompletionHandler:(void (^)(void))completionHandler{
     
@@ -41,7 +41,21 @@
     } else {
         NSString *receivedString = [[NSString alloc]initWithData:receivedData encoding:NSUTF8StringEncoding];
         NSLog(@"Request sent. %@", receivedString);
-        completionHandler();
+        NSDictionary *xmlDoc = [NSDictionary dictionaryWithXMLString:receivedString];
+        if(xmlDoc[@"RestException"][@"Message"]){
+            self.failedMessage=YES;
+            self.errorMessage=xmlDoc[@"RestException"][@"Message"];
+            completionHandler();
+
+        }
+        else{
+            self.failedMessage=NO;
+            self.errorMessage=@"";
+            completionHandler();
+
+
+        }
+        
     }
 }
 
