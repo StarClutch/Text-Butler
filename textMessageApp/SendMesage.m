@@ -16,4 +16,18 @@
     
 }
 
+-(void)cancelMessageSendingwithCompletionHandler:(void (^)(void))completionHandler{
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"pendingMessage"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"sendTo"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"sendMessage"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"sendDate"];
+
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    completionHandler();
+    
+}
+
+
 @end

@@ -18,19 +18,50 @@
     [super viewDidLoad];
 
     [self.datePicker setMinimumDate: [NSDate date]];
+    self.errorMessage.hidden=YES;
+    
+    
     
     self.sendTo.delegate=self;
     self.sendFrom.delegate=self;
     self.sendMessage.delegate=self;
+    
+    NSString *sendFrom = [[NSUserDefaults standardUserDefaults]
+                          stringForKey:@"sendFrom"];
+    self.sendFrom.text=sendFrom;
+    
+    NSString *sendTo = [[NSUserDefaults standardUserDefaults]
+                        stringForKey:@"sendTo"];
+    self.sendTo.text=sendTo;
+    
+    NSString *sendMessage = [[NSUserDefaults standardUserDefaults]
+                             stringForKey:@"sendMessage"];
+    self.sendMessage.text=sendMessage;
+
+    NSString *pendingMessage = [[NSUserDefaults standardUserDefaults]
+                             stringForKey:@"pendingMessage"];
+    self.pendingMessage=pendingMessage;
+
+    NSString *sendDate = [[NSUserDefaults standardUserDefaults]
+                             stringForKey:@"sendDate"];
+    if(sendDate){
+        NSTimeInterval timeInterval = [sendDate  doubleValue];
+        [self.datePicker setDate:[NSDate dateWithTimeIntervalSince1970:timeInterval]];
+    }
+    
     if(self.pendingMessage){
         self.sendTo.enabled=NO;
         self.sendFrom.enabled=NO;
-        self.sendMessage.enabled=NO;
+        self.sendMessage.editable=NO;
         self.datePicker.enabled=NO;
-
+        
         [self.sendMessageButton setTitle:@"Cancel Message" forState:UIControlStateNormal];
         
     }
+    
+
+    
+
 
 
 }
@@ -39,19 +70,19 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if(range.length + range.location > textView.text.length)
+    {
+        return NO;
+    }
+    self.charcterRemaining.text=[NSString stringWithFormat:@"%li/160 charcters",textView.text.length-range.length];
+    
+    NSUInteger newLength = [textView.text length] - range.length;
+    return (newLength >= 160) ? NO : YES;
+
+}
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
 
-    
-    if(textField==self.sendMessage){
-        if(range.length + range.location > textField.text.length)
-        {
-            return NO;
-        }
-        self.charcterRemaining.text=[NSString stringWithFormat:@"%li/160 charcters",textField.text.length-range.length];
-
-        NSUInteger newLength = [textField.text length] + [string length] - range.length;
-        return (newLength > 160) ? NO : YES;
-    }
     
     int length = [self getLength:textField.text];
     //NSLog(@"Length  =  %d ",length);
@@ -126,29 +157,53 @@
 
 
 - (IBAction)sendMessageAction:(id)sender {
+    self.errorMessage.hidden=YES;
+
+    SendMesage *sendMessage=[[SendMesage alloc] init];
+
     if(self.pendingMessage){
-        [self.sendMessageButton setTitle:@"Send Message" forState:UIControlStateNormal];
-        self.sendTo.text=@"";
-        self.sendMessage.text=@"";
-        self.sendTo.enabled=YES;
-        self.sendFrom.enabled=YES;
-        self.sendMessage.enabled=YES;
-        self.datePicker.enabled=YES;
-        self.pendingMessage=NO;
+        [sendMessage cancelMessageSendingwithCompletionHandler:^{
+            if(sendMessage.failedMessage){
+                self.errorMessage.text=sendMessage.errorMessage;
+                self.errorMessage.hidden=NO;
+            }
+            else{
+            [self.sendMessageButton setTitle:@"Send Message" forState:UIControlStateNormal];
+            self.sendTo.text=@"";
+            self.sendMessage.text=@"";
+            self.sendTo.enabled=YES;
+            self.sendFrom.enabled=YES;
+            self.sendMessage.editable=YES;
+            self.datePicker.enabled=YES;
+            self.pendingMessage=NO;
+            [self.datePicker setDate:[NSDate date]];
+            }
+        }];
         
     }
     else{
-    SendMesage *sendMessage=[[SendMesage alloc] init];
     
     [sendMessage sendMessageTo:self.sendTo.text from:self.sendFrom.text message:self.sendMessage.text date:[self.datePicker date] withCompletionHandler:^{
         
         if(sendMessage.failedMessage){
-            // error
+            self.errorMessage.text=sendMessage.errorMessage;
+            self.errorMessage.hidden=NO;
         }
         else{
+            NSString *dateString=[NSString stringWithFormat:@"%f",[self.datePicker.date timeIntervalSince1970]];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:self.sendFrom.text forKey:@"sendFrom"];
+            [[NSUserDefaults standardUserDefaults] setObject:self.sendTo.text forKey:@"sendTo"];
+            [[NSUserDefaults standardUserDefaults] setObject:self.sendMessage.text forKey:@"sendMessage"];
+            [[NSUserDefaults standardUserDefaults] setBool:1 forKey:@"pendingMessage"];
+
+            [[NSUserDefaults standardUserDefaults] setObject:dateString  forKey:@"sendDate"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+
+            
             self.sendTo.enabled=NO;
             self.sendFrom.enabled=NO;
-            self.sendMessage.enabled=NO;
+            self.sendMessage.editable=NO;
             self.datePicker.enabled=NO;
             [self.sendMessageButton setTitle:@"Cancel Message" forState:UIControlStateNormal];
             self.pendingMessage=YES;

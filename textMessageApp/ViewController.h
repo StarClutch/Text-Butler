@@ -13,10 +13,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *charcterRemaining;
 @property (strong, nonatomic) IBOutlet UITextField *sendTo;
 @property (strong, nonatomic) IBOutlet UITextField *sendFrom;
-@property (strong, nonatomic) IBOutlet UITextField *sendMessage;
+@property (strong, nonatomic) IBOutlet UITextView *sendMessage;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 - (IBAction)sendMessageAction:(id)sender;
 @property (strong, nonatomic) IBOutlet UIButton *sendMessageButton;
+@property (strong, nonatomic) IBOutlet UILabel *errorMessage;
 
 @property (nonatomic) BOOL pendingMessage;
 @end
