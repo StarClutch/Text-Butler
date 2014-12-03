@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "SendMesage.h"
+#import "SendMessage.h"
 @interface ViewController ()
 
 @end
@@ -159,7 +159,7 @@
 - (IBAction)sendMessageAction:(id)sender {
     self.errorMessage.hidden=YES;
 
-    SendMesage *sendMessage=[[SendMesage alloc] init];
+    SendMessage *sendMessage=[[SendMessage alloc] init];
 
     if(self.pendingMessage){
         [sendMessage cancelMessageSendingwithCompletionHandler:^{
@@ -213,7 +213,8 @@
     }];
     
     }
-    
-    
 }
+
+
+
 @end

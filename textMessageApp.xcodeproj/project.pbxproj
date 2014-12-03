@@ -15,7 +15,7 @@
 		0903DCFF1A2E13960031D090 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0903DCFE1A2E13960031D090 /* Images.xcassets */; };
 		0903DD021A2E13960031D090 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0903DD001A2E13960031D090 /* LaunchScreen.xib */; };
 		0903DD0E1A2E13960031D090 /* textMessageAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0903DD0D1A2E13960031D090 /* textMessageAppTests.m */; };
-		0903DD381A2EB7CE0031D090 /* SendMesage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0903DD371A2EB7CE0031D090 /* SendMesage.m */; };
+		0903DD381A2EB7CE0031D090 /* SendMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0903DD371A2EB7CE0031D090 /* SendMessage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,8 +43,8 @@
 		0903DD071A2E13960031D090 /* textMessageAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = textMessageAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0903DD0C1A2E13960031D090 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0903DD0D1A2E13960031D090 /* textMessageAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = textMessageAppTests.m; sourceTree = "<group>"; };
-		0903DD361A2EB7CE0031D090 /* SendMesage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMesage.h; sourceTree = "<group>"; };
-		0903DD371A2EB7CE0031D090 /* SendMesage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMesage.m; sourceTree = "<group>"; };
+		0903DD361A2EB7CE0031D090 /* SendMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessage.h; sourceTree = "<group>"; };
+		0903DD371A2EB7CE0031D090 /* SendMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,8 +90,8 @@
 				0903DCF31A2E13960031D090 /* AppDelegate.m */,
 				0903DCF81A2E13960031D090 /* ViewController.h */,
 				0903DCF91A2E13960031D090 /* ViewController.m */,
-				0903DD361A2EB7CE0031D090 /* SendMesage.h */,
-				0903DD371A2EB7CE0031D090 /* SendMesage.m */,
+				0903DD361A2EB7CE0031D090 /* SendMessage.h */,
+				0903DD371A2EB7CE0031D090 /* SendMessage.m */,
 				0903DCFB1A2E13960031D090 /* Main.storyboard */,
 				0903DCFE1A2E13960031D090 /* Images.xcassets */,
 				0903DD001A2E13960031D090 /* LaunchScreen.xib */,
@@ -231,7 +231,7 @@
 				0903DCF11A2E13960031D090 /* main.m in Sources */,
 				0903DCFA1A2E13960031D090 /* ViewController.m in Sources */,
 				0903DCF71A2E13960031D090 /* textMessageApp.xcdatamodeld in Sources */,
-				0903DD381A2EB7CE0031D090 /* SendMesage.m in Sources */,
+				0903DD381A2EB7CE0031D090 /* SendMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
