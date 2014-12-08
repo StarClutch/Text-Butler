@@ -18,9 +18,6 @@
     [super viewDidLoad];
 
     [self.datePicker setMinimumDate: [NSDate date]];
-    self.errorMessage.hidden=YES;
-    
-    
     
     self.sendTo.delegate=self;
     self.sendFrom.delegate=self;
@@ -151,14 +148,11 @@
     int length = [mobileNumber length];
     
     return length;
-    
-    
 }
 
 
-- (IBAction)sendMessageAction:(id)sender {
-    self.errorMessage.hidden=YES;
-
+- (IBAction)sendMessageAction:(id)sender
+{
     SendMessage *sendMessage=[[SendMessage alloc] init];
 
     if(self.pendingMessage){

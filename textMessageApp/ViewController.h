@@ -17,7 +17,6 @@
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 - (IBAction)sendMessageAction:(id)sender;
 @property (strong, nonatomic) IBOutlet UIButton *sendMessageButton;
-@property (strong, nonatomic) IBOutlet UILabel *errorMessage;
 
 @property (nonatomic) BOOL pendingMessage;
 @end
