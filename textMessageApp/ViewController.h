@@ -8,15 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
 
-@property (strong, nonatomic) IBOutlet UILabel *charcterRemaining;
-@property (strong, nonatomic) IBOutlet UITextField *sendTo;
-@property (strong, nonatomic) IBOutlet UITextField *sendFrom;
-@property (strong, nonatomic) IBOutlet UITextView *sendMessage;
+@property (strong, nonatomic) IBOutlet UILabel *charactersRemaining;
+@property (strong, nonatomic) IBOutlet UITextField *sendToTextField;
+@property (strong, nonatomic) IBOutlet UITextField *sendFromTextField;
+@property (strong, nonatomic) IBOutlet UITextView *sendMessageTextView;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
-- (IBAction)sendMessageAction:(id)sender;
 @property (strong, nonatomic) IBOutlet UIButton *sendMessageButton;
+
+- (IBAction)sendMessageButtonTapped:(id)sender;
 
 @property (nonatomic) BOOL pendingMessage;
 @end
