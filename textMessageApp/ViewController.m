@@ -183,6 +183,25 @@
         NSTimeInterval timeToSendMessage = [self.datePicker.date timeIntervalSince1970];
         NSTimeInterval delay = timeToSendMessage - timeNow;
         
+        NSString *dateString=[NSString stringWithFormat:@"%f", timeToSendMessage];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:self.sendFromTextField.text forKey:@"sendFrom"];
+        [[NSUserDefaults standardUserDefaults] setObject:self.sendToTextField.text forKey:@"sendTo"];
+        [[NSUserDefaults standardUserDefaults] setObject:self.sendMessageTextView.text forKey:@"sendMessage"];
+        [[NSUserDefaults standardUserDefaults] setBool:1 forKey:@"pendingMessage"];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:dateString  forKey:@"sendDate"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+
+        self.sendToTextField.enabled=NO;
+        self.sendFromTextField.enabled=NO;
+        self.sendMessageTextView.editable=NO;
+        self.datePicker.enabled=NO;
+        [self.sendMessageButton setTitle:@"Cancel Message" forState:UIControlStateNormal];
+        self.pendingMessage=YES;
+
+        
         [self performSelector:@selector(sendMessageAfterDelay:) withObject:sendMessage afterDelay:delay];
     }
 }
@@ -190,7 +209,13 @@
 - (void)sendMessageAfterDelay:(SendMessage *)sendMessage
 {
     [sendMessage sendMessageTo:self.sendToTextField.text from:self.sendFromTextField.text message:self.sendMessageTextView.text date:[self.datePicker date] withCompletionHandler:^{
-        
+        self.sendToTextField.enabled=YES;
+        self.sendFromTextField.enabled=YES;
+        self.sendMessageTextView.editable=YES;
+        self.datePicker.enabled=YES;
+        self.pendingMessage=NO;
+        [self.sendMessageButton setTitle:@"Send Message" forState:UIControlStateNormal];
+
         if(sendMessage.failedMessage){
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could not send message" message:@"Please try again later" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
             [alert show];
@@ -207,6 +232,11 @@
             [[NSUserDefaults standardUserDefaults] setBool:1 forKey:@"pendingMessage"];
             [[NSUserDefaults standardUserDefaults] setObject:dateString  forKey:@"sendDate"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [sendMessage cancelMessageSendingwithCompletionHandler:^{
+                self.sendToTextField.text=@"";
+                self.sendMessageTextView.text=@"";
+            }];
+
         }
     }];
 }

@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "textMessageApp/SendMessage.m"
-            timestampString = "439338716.914428"
+            timestampString = "439339586.382131"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "-sendMessageTo:from:message:date:withCompletionHandler:"
             landmarkType = "5">
          </BreakpointContent>
